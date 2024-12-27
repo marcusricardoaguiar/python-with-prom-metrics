@@ -1,4 +1,4 @@
-from .clients import Clients, ListClients
+from .clients import Clients, NewClient, ListClients
 from .main import Metrics, Main
 
 def initialize_routes(api):
@@ -6,4 +6,5 @@ def initialize_routes(api):
     api.add_resource(Main, '/')
     api.add_resource(Metrics, '/metrics')
     api.add_resource(ListClients, '/clients')
-    api.add_resource(Clients, '/client/<string:name>')
+    api.add_resource(Clients, '/client/<int:id>')
+    api.add_resource(NewClient, '/client')

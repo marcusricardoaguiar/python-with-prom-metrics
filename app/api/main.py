@@ -4,15 +4,15 @@ from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter, His
 
 class Main(Resource):
     def get(self):
-        REQUEST_COUNT.labels(method='GET', endpoint='/').inc()  # Increment counter
-        with REQUEST_LATENCY.labels(method='GET', endpoint='/').time():  # Measure latency
+        REQUEST_COUNT.labels(method='GET', endpoint='/', status_code=200).inc()  # Increment counter
+        with REQUEST_LATENCY.labels(method='GET', endpoint='/', status_code=200).time():  # Measure latency
             return {"message": "Hello World"}, 200
 
 ########################
 ### PROMETHEUS SETUP ###
 ########################
-REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint'])
-REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'Latency of HTTP requests', ['method', 'endpoint'])
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status_code'])
+REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'Latency of HTTP requests', ['method', 'endpoint', 'status_code'])
 
 # Prometheus metrics route
 class Metrics(Resource):
