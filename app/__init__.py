@@ -1,14 +1,34 @@
+import logging
 from flask import Flask
+from flask_restful import Api
 
-# Register routes from routes/main.py
-from .routes.main import main_bp
-# Register routes from routes/clients.py
-from .routes.clients import clients_bp
+from .models.database import initialize_database
+from .api.routes import initialize_routes
 
-def create_app():
-    app = Flask(__name__)
+#########################
+### APPLICATION SETUP ###
+#########################
+app = Flask(__name__)
 
-    app.register_blueprint(main_bp)
-    app.register_blueprint(clients_bp)
+######################
+### DATABASE SETUP ###
+######################
+initialize_database(app)
 
-    return app
+#####################
+### LOGGING SETUP ###
+#####################
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the default log level (e.g., DEBUG, INFO, WARNING, ERROR)
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Log format
+    handlers=[
+        logging.StreamHandler(),  # Log to the console
+        logging.FileHandler('flask.log')  # Also log to a file named 'app.log'
+    ]
+)
+
+####################
+### ROUTES SETUP ###
+####################
+api = Api(app)
+initialize_routes(api)

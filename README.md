@@ -32,9 +32,28 @@ The following command should be used to run unit tests:
 python -m unittest discover tests
 ```
 
+## Checking tests coverage
+
+The following command should be used to check tests coverage:
+```
+coverage run -m unittest discover
+coverage report
+coverage report --format=total
+```
+
 ## Running linting
 
 The following command should be used to run lint:
 ```
 pylint app tests
+```
+
+## Running conda environment
+
+This is still not being used. It will be added later on...
+```
+Set-Alias conda _conda
+conda create -n python-with-prom-metrics flask
+conda init
+conda activate python-with-prom-metrics
 ```
