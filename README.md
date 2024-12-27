@@ -59,6 +59,17 @@ docker run \
 ```
 note: on Windows, you need to start docker desktop.
 
+## Access Prometheus Deployment
+
+Just try localhost:9090 on your browser
+
+### Queries
+
+```
+sum by (status_code) (http_requests_total{endpoint="/client",method="GET"})
+rate(http_request_duration_seconds_bucket{endpoint="/client", method="GET", status_code="404"}[1h])
+```
+
 ## Running conda environment
 
 This is still not being used. It will be added later on...
@@ -67,11 +78,4 @@ Set-Alias conda _conda
 conda create -n python-with-prom-metrics flask
 conda init
 conda activate python-with-prom-metrics
-```
-
-### Queries
-
-```
-sum by (status_code) (http_requests_total{endpoint="/client",method="GET"})
-rate(http_request_duration_seconds_bucket{endpoint="/client", method="GET", status_code="404"}[1h])
 ```
