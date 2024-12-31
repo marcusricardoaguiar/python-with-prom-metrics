@@ -38,9 +38,9 @@ class Clients(Resource):
         # Start measuring the request duration
         start_time = time.time()
         client = Client.query.filter_by(id=id).first()
-        db.session.delete(client)
-        db.session.commit()
         if client:
+            db.session.delete(client)
+            db.session.commit()
             REQUEST_COUNT.labels(method='DELETE', endpoint='/client', status_code=200).inc()  # Increment counter
             # Calculate the request duration
             duration = time.time() - start_time
@@ -51,7 +51,7 @@ class Clients(Resource):
             # Calculate the request duration
             duration = time.time() - start_time
             REQUEST_LATENCY.labels(method='DELETE', endpoint='/client', status_code=404).observe(duration)  # Measure latency
-            return {'note': 'client does not exist'}
+            return {'note': 'client does not exist'}, 404
 
 class NewClient(Resource):
 
