@@ -1,6 +1,18 @@
 # python-with-prom-metrics
 Python application with Prometheus Metrics
 
+## Build python image docker
+
+```
+docker build -t python-with-prom-metrics .
+```
+
+## Run python image docker
+
+```
+docker run -d -p 5000:5000 --name python-with-prom-metrics python-with-prom-metrics
+```
+
 ## Freezing packages and install from requirements.txt
 
 As a best practices, always set all dependencies on requirements.txt file:
@@ -54,7 +66,7 @@ The following command will spin up a prometheus container to pull metrics from t
 ```
 docker run \
     -p 9090:9090 \
-    -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml \
+    -v $(pwd)/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
     prom/prometheus
 ```
 note: on Windows, you need to start docker desktop.
@@ -68,6 +80,35 @@ Just try localhost:9090 on your browser
 ```
 sum by (status_code) (http_requests_total{endpoint="/client",method="GET"})
 rate(http_request_duration_seconds_bucket{endpoint="/client", method="GET", status_code="404"}[1h])
+```
+
+## Running Grafana
+
+The following command will spin up a grafana container to show the Prometheus Metrics with custom charts:
+```
+docker run -d \
+    -p 3000:3000 \
+    -v $(pwd)/grafana/provisioning:/etc/grafana/provisioning \
+    -v $(pwd)/grafana/dashboards:/etc/grafana/dashboards \
+    -v $(pwd)/grafana/provisioning/dashboards/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml \
+    -v $(pwd)/grafana/provisioning/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml \
+    -e GF_SECURITY_ADMIN_PASSWORD='123456' \
+    --name=grafana grafana/grafana-enterprise
+```
+note: on Windows, you need to start docker desktop.
+
+## Access Grafana Deployment
+
+Just try localhost:3000 on your browser and type the following:
+ - Username: admin
+ - Password: 123456
+
+
+## Run docker compose
+
+```
+docker-compose up
+docker-compose down
 ```
 
 ## Running conda environment

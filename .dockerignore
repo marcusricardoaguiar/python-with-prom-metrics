@@ -1,0 +1,12 @@
+__pycache__
+tests
+grafana
+*.pyc
+*.pyo
+.git
+*.gitignore
+.coverage
+.coveragerc
+.pylintrc
+flask.log
+prometheus.yml
