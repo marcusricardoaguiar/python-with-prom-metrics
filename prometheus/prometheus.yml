@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s  # Default scrape interval (how often Prometheus scrapes targets)
+  evaluation_interval: 15s  # How frequently to evaluate rules
+  scrape_timeout: 10s  # Timeout for scraping targets
+
+# Define scrape configurations (where Prometheus will collect metrics from)
+scrape_configs:
+  # Scrape from a web application (example)
+  - job_name: 'python-app'
+    static_configs:
+      - targets: ['host.docker.internal:5000']
+    metrics_path: '/metrics'
